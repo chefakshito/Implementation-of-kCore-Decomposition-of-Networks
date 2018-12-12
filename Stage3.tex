@@ -1,0 +1,37 @@
+\textnormal{
+The generation of random graphs and implementation and execution of the algorithms is performed using C++ in Microsoft Visual Studio. For the interactive website, JavaScript, HTML5 and CSS are used. The library used is D3.js (data-driven-documents).
+%Building the corresponding relational tables, according to the proposed ER model described in the previous phase %enforcing the different integrity constraints.  
+The deliverables for this stage include the following items:
+\begin{itemize} 
+\item{}
+The size of the graphs generated are from 64 vertices till 4096 vertices, for convenience, with the following relations between the nodes and edges:
+    \begin{itemize}
+        \item $ |E| = |V|/2 $
+        \item $ |E| = |V| $
+        \item $ |E| = 2|V| $
+        \item $ |E| = |V|\log |V|$
+    \end{itemize}
+The graph generator program selects two nodes $u$ and $v$ where the uniform probability of a node being picked is $\frac{1}{|V|}$ and checks if an edge already exists between the two nodes. If the edge does not exist, it is added to $E$.
+    \begin{itemize}
+        \item For weighted graphs, the link weight between nodes $u$ and $v$ is defined as: 
+        $$w_{u,v} = size(Neighbours(u) \cup Neighbours(v))$$
+    \end{itemize}
+%The SQL tables that represent the ER project model, along with at least 3-5 rows of concrete data per table.
+\item{}
+The k-core algorithm program which extracts the layers in the graph and writes the computation times and number of edges for each layer to a JSON file format.
+%The normalization steps for each table, along with explanations/justifications of each normalization step.
+\item{}
+A website which visualizes the generated files.
+%The SQL table after the normalization steps (showing all table attributes).
+\item{}
+Demo and sample findings
+%The SQL statements used to create the SQL tables, including the required triggers as well as the integrity constraints. At %least 2 triggers and 2 of each of the following constraint types have to exist in the project tables overall: 
+\begin{itemize} 
+\item{}
+    	Data size: In terms of  RAM size;  Disk Resident?; Streaming ?;  
+    \item{}
+    	List the most interestng findings in the data if it is a Data Exploration Project. For other project types consult with your project supervisor what the corresponding outcomes shall be. Concentrate on demonstrating the Usefuness and Novelty of your application.
+    %Whether some users will be denied access and/or updates to some data according to their roles (for example: student1 %can not access other students' ' grades, so a violation error pops up upon that action. Another example: a sales person %can see an item price, but can not change it, since only a manger can, also a violation error pops up upon that update %attempt).
+\end{itemize}
+\end{itemize}
+}

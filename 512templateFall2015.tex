@@ -1,0 +1,143 @@
+\documentclass[10pt,conference]{IEEEtran}
+
+\ifCLASSINFOpdf
+	\usepackage[pdftex]{graphicx}
+	%\graphicspath{{./figs/}}
+	\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+	\usepackage[dvips]{graphicx}
+	%\graphicspath{{./figs/}}
+	\DeclareGraphicsExtensions{.eps}
+\fi
+
+\usepackage[cmex10]{amsmath}
+\usepackage{amsfonts}
+\usepackage[tight,footnotesize]{subfigure}
+\usepackage{xcolor}
+\usepackage[lined,ruled]{algorithm2e}
+\usepackage{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\usetikzlibrary{arrows}
+\usetikzlibrary{shapes.geometric}
+
+\usepackage[]{algorithm2e}
+
+\newtheorem{property}{Property}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{question}{Question}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+
+\makeatletter
+\pgfdeclareshape{datastore}{
+\inheritsavedanchors[from=rectangle]
+\inheritanchorborder[from=rectangle]
+\inheritanchor[from=rectangle]{center}
+\inheritanchor[from=rectangle]{base}
+\inheritanchor[from=rectangle]{north}
+\inheritanchor[from=rectangle]{north east}
+\inheritanchor[from=rectangle]{east}
+\inheritanchor[from=rectangle]{south east}
+\inheritanchor[from=rectangle]{south}
+\inheritanchor[from=rectangle]{south west}
+\inheritanchor[from=rectangle]{west}
+\inheritanchor[from=rectangle]{north west}
+\backgroundpath{
+    %  store lower right in xa/ya and upper right in xb/yb
+\southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+\northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+\pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}
+\pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@yb}}
+\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}
+ }
+}
+\makeatother
+
+\newcommand{\riham}[1]{{\color{red}{#1}}}
+\newcommand{\james}[1]{{\color{blue}{#1}}}
+
+
+\begin{document}
+
+% Define block styles
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=8em, text centered, rounded corners, minimum height=6em, node distance=4cm]
+\tikzstyle{line} = [draw, -latex']
+
+\title{Cores Decomposition of Networks - Fall 2018}
+\author{
+\IEEEauthorblockN{Akshay Aggarwal}
+\IEEEauthorblockA{Department of Computer Science, Rutgers University\\ Piscataway, NJ, USA\\
+Email: akshay.aggarwal@rutgers.edu}
+}
+
+\maketitle
+\begin{abstract}
+\textnormal{
+The k-core decomposition of a network is an algorithm to reveal the hierarchical structure of large networks by partitioning them into smaller 'cores'. In this project, we implement and visualize the two models of this algorithm based on 1) The degree of nodes and 2) The weights of the edges of the nodes, and then extract each layer of resulting graph and visualize them as well. The interface is a website where users can view and interact with graphs representing networks and see information on the computation performed on these graphs.
+}
+\end{abstract}
+%\onecolumn \maketitle \normalsize \vfill
+
+\IEEEpeerreviewmaketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Project Description}\label{sec:1. Project Description}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textnormal{
+The k-core decomposition of a network helps us in finding the cohesive groups of nodes within that network. A cohesive group can be defined as the group of nodes with strong interconnections between them. This can help identify, for example, groups of countries with the strongest trade connections or the most connected group of airports. This algorithm will reveal such groups in a hierarchical manner and then visualize the resulting groups found in the network. This project provides insight into the working of the algorithm along with its computation time based on the size of the input graph. The $k^{th}$ core of a graph can be described as the group of vertices where each vertex has degree at least $k$. A layer is defined as a sub-graph of the network which contains only the edges which fall in the highest core induced by the algorithm.\\
+}
+
+The project has four stages: Gathering, Design, Infrastructure Implementation, and User Interface.
+
+%\subsection{Stage1 - The Requirement Gathering Stage. } \label{sec:1	Requirement Gathering Stage. } 
+%\input{Stage1.tex}
+\subsection{Stage1 - The Requirement Gathering Stage. }\label{sec:1 Requirement Gathering Stage. }
+%%%%%%%
+\input{Stage1.tex}
+
+\subsection{Stage2 - The Design Stage. }\label{sec: 2:The Design Stage.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{Stage2.tex}
+
+\subsection{Stage3 - The Implementation Stage. }\label{sec: 3 The Implementation Stage.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{Stage3.tex}
+
+\subsection{Stage4 -	User Interface. }\label{sec: 4. User Interface.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{Stage4.tex}
+
+%\section{Project Highlights.}\label{sec:7. Project Highlights.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\input{Highlights.tex}
+
+\bibliographystyle{IEEEtran}
+\begin{thebibliography}{999}
+    \bibitem{lamport94}
+    Vladimir Batagelj, Matja{\v z} Zaver{\v s}nik
+    
+    \emph{An O(m) Algorithm for Cores}.
+    Department of Mathematics, University of Ljubljana, Slovenia.
+    April 24, 2002 / September 1, 2002
+    \bibitem{lamport94}
+     Antonios Garas$^{1,3}$, Frank Schweitzer$^1$ and Shlomo Havlin$^2$
+
+    
+    \emph{A k-shell decomposition method for weighted networks}.
+    1 ETH Zurich, Weinbergstrasse 58 CH-8092 Zurich, Switzerland
+    2 Minerva Center and Department of Physics, Bar-Ilan University,
+    52900 Ramat Gan, Israel
+
+    New Journal of Physics 14 (2012) 083030 (14pp)
+    Received 28 May 2012
+    Published 24 August 2012
+\end{thebibliography}
+
+\end{document}
+
+

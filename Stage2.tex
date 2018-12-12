@@ -1,0 +1,172 @@
+\begin{itemize} 
+\item{Project Flow: }
+    \begin{enumerate}
+        \item The user explicitly inputs a graph G OR graph G is generated using the Graph Generator Program.
+        \item Graph G is input to the $U_{k-core}$ (unweighted k-core) or to the $W_{k-core}$ (weighted k-core) algorithm.
+        \item The top layer is extracted from the output of the k-core algorithm. The new graph $G' = (V,E')$ where $E' = E-E*$ is fed back into step 2.
+        \item Steps 2 and 3 are repeated till all the layers are extracted and $|E'| = 0$.
+        \item The resultant layers, their computation time and concentration of edges in each layer is visualized using the website. 
+    \end{enumerate}
+
+\end{itemize}
+
+ \begin{itemize}
+\item{ Flow Diagram. } \\
+    \begin{tikzpicture}[node distance = 2cm, auto]
+    	\node [block] (graph_input) {1.Explicitly Input graph G};
+        \node [block, right of=graph_input] (generate_graph) {1. Randomly Generate Graph G};
+        \node [block, below of=graph_input] (unweighted_kcore) {2. Perform $U_{k-core}$ on G};
+        \node [block, right of=unweighted_kcore] (weighted_kcore) {2. Perform $W_{k-core}$ on G};
+        \node [block, below of=unweighted_kcore] (extract_layers) {3. Extract Layer and computation-time value, edge concentration value};
+        
+        \node [draw, diamond,, aspect=2, node distance = 4cm, fill=blue!20, below of=extract_layers] (layer_decision) {4. $|E'| = 0?$ };
+        
+        \node [block, below of= layer_decision] (visualize) {5. Visualize using website};
+        
+        \path[every node/.style={sloped,anchor=south,auto=false}]
+        (graph_input) [->, thick] edge node [below] {} (unweighted_kcore)
+        (graph_input) [->, thick] edge node [below] {} (weighted_kcore)
+        (generate_graph) [->, thick] edge node [below] {} (unweighted_kcore)
+        (generate_graph) [->, thick] edge node [below] {} (weighted_kcore)
+        (unweighted_kcore) [->, thick] edge node [below] {} (extract_layers)
+        (weighted_kcore) [->, thick] edge node [below] {} (extract_layers)
+        (extract_layers) [->, thick] edge node [below] {} (layer_decision)
+        (layer_decision) [->, thick] edge [bend right=45] node {No} (unweighted_kcore)
+        (layer_decision) [->, thick] edge [bend right] node [above] {No} (weighted_kcore)
+        (layer_decision) [->, thick] edge node [below] {Yes} (visualize);
+    \end{tikzpicture}
+    
+\item{ High Level Pseudo Code System Description. } \\
+\LinesNumbered
+\begin{algorithm}
+ \KwIn{$|V|, |E|$}
+ \KwOut{Graph $(V,E)$}
+ $n \gets 0$ \\
+ \While {$n \neq |E|$}{
+     $u \gets rand \mod |V|$  \\
+     $v \gets rand \mod |V|$ \\
+     $e \gets (u,v)$ \\
+     \If{$e \not\in{E}$}{
+        $E \cup e$ \\
+        $n \gets n+1$
+       
+     }
+ }
+ 
+ \caption{Generate Graph}
+ \end{algorithm}
+ 
+\begin{algorithm}
+ 
+\KwIn{Graph G = (V, E) as an adjacency list}
+\KwOut{Array $deg$ with core number for each vertex}
+
+compute the degrees of vertices \\
+order the set of vertices V \\
+in increasing order of their degrees \\
+\ForEach {$v \in V$ in the order} {
+    $core[v] \gets degree[v]$ \\
+    \ForEach{$u \in Neighbours(v)$} {  
+        \If {degree[u] $>$ degree[v]} {
+            $degree[u] \gets degree[u] $-$ 1$   \\
+            reorder V accordingly
+        }
+    }
+}
+\caption{Unweighted k-core Algorithm}
+\end{algorithm}
+
+
+\begin{algorithm}
+ 
+\KwIn{Graph G = (V, E) as an adjacency list}
+\KwOut{Array $deg$ with core number for each vertex}
+
+computer weighted degrees of vertices  \\
+order the set of vertices V \\
+in increasing order of their degrees \\
+\ForEach {$v \in V$ in the order} {
+    $core[v] \gets degree[v]$ \\
+    \ForEach{$u \in Neighbours(v)$} {  
+        \If {degree[u] $>$ degree[v]} {
+            $degree[u] \gets degree[u] $-$ w_{ij}$  \\
+            reorder V accordingly
+        }
+    }
+}
+\caption{Weighted k-core Algorithm}
+\end{algorithm}
+
+\begin{algorithm}
+ 
+\KwIn{Graph $G = (V, E)$ as an adjacency list, Graph $G^* = (V,E^*)$ containing the edges in the highest core.}
+\KwOut{Graph $G_R = (V, E_R)$}
+
+\ForEach {$e \in E$} {
+    \If {$e \in E^*$} {
+       $E \gets E$-$e$   \\
+    }
+}
+\caption{Layer Extraction}
+\end{algorithm}
+
+\begin{algorithm}
+  \KwIn{Graph $(V,E)$ }
+ \For{$(u,v) \in{E}$}{
+   $d \gets$ distance from $u$ to $v$ \\
+   $f_x, f_y \gets springForce(d, alpha)$ \\
+   Add $f_x$ to $u.xVelocity$ and $v.xVelocity$ \\
+   Add $f_y$ to $u.yVelocity$ and $v.yVelocity$ 
+ }
+ \For{$ v\in{V}$}{
+   $f_x, f_y \gets repulsionForce(v, V, alpha)$ \\
+   $v.xVelocity \gets v.xVelocity + f_x$ \\
+   $v.yVelocity \gets v.yVelocity + f_y$
+ }
+ \For{$ v\in{V}$}{
+   $v.x \gets v.x + v.xVelocity$ \\
+   $v.y \gets v.y + v.yVelocity$
+ }
+ \caption{Tick in Simulation}
+\end{algorithm}
+
+\item The algorithms are as follow:
+\begin{itemize}
+\setlength\itemsep{1em}
+    \item{\textit{The graph generator:}}
+    Given input $n,m$ the graph generator will generate a graph $G=(v,E)$ as an adjacency list where $|V| = n$ and $|E| = m$. For each vertex $v \in V$, the neighbors are represented as a unique $set$. To generate an edge, the function performs the following steps:
+    \begin{enumerate}
+        \item Set $count=0$.
+        \item Randomly pick $u$ and $v$ from $V$.
+        \item Try to insert $v$ in the adjacency set of $u$. If edge $(u,v) \in E$ then go back to step 2.
+        \item Else $E = E\cup (u,v)$.
+        \item Increment $count$. If $count \neq m$ then go back to step 2.
+    \end{enumerate}
+    The $set:insert$ step takes $O(\log{n})$ time.
+    
+    \item{\textit The k-core Algorithm:}
+    The k-Core algorithm is as follow:
+    \begin{enumerate}
+        \item Create an array $deg$ of size $|V|$ representing the vertices in $V$.
+        \item For each vertex, assign the value of $deg[u]$ as follow:
+        \begin{itemize}
+            \item{\textit{Unweighted}}
+            Degree of vertext $u$.
+            \item{\textit{Weighted}} 
+            $k_u$, the weighted degree of vertex $u$ where $k_u = \sum w_{u,v}$ where $w_{u,v}$ is the weight of the edge $(u,v)$.
+        \end{itemize}
+        \item Sort the vertices in increasing order of their degrees.
+        \item For $k \in [0,1,2,...,md]$ where $md$ is the maximum degree in the array $deg$, for each vertex $u$ of degree $k$, for each $v \in Neighbours(u)$, do:
+        \begin{itemize}
+            \item{\textit{Unweighted}}
+            If $deg[v] > deg[u]$ then delete edge $(v,u)$ and decrement $deg[v]$.
+            \item{\textit{Weighted}}
+            If $deg[v] > deg[u]$ then delete edge $(v,u)$ and $deg[v] = deg[v] - w_{v,u}$.
+            \newline If $deg[v] - w_{v,u} < k$, then  $deg[v] = k$.
+        \end{itemize}
+        \item The array $deg$ will contain the core numbers for each $v \in V$.
+    \end{enumerate}
+    The sorting of degrees can be performed in $O(|V|)$ time using \textit{bucket sort}. Step 3 takes $O(|E|)$ time.
+\end{itemize}
+\end{itemize}
+
